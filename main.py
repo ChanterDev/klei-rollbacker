@@ -46,11 +46,11 @@ for transaction in transactions:
     rollback_response.raise_for_status()
     secret["csrfToken"] = rollback_response.json()["data"]["NewCSRFToken"]
     del rollback_response
-    if transaction.has_key("ItemGains")
+    if transaction.has_key("ItemGains"):
         item_type = transaction["ItemGains"][0]["Type"]
         print(f"Rollbacked item creation \"{item_type}\"")
         del item_type
-    elif transaction.has_key("ItemLosses")
+    elif transaction.has_key("ItemLosses"):
         item_type = transaction["ItemLosses"][0]["Type"]
         print(f"Rollbacked item destroying \"{item_type}\"")
         del item_type
