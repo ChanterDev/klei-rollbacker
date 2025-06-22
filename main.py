@@ -4,6 +4,11 @@ from json import load, dump
 DATA_URL = "https://accounts.klei.com/account/transactions/data.json"
 ROLLBACK_URL = "https://accounts.klei.com/account/transactions/rollback"
 
+TYPE_WHITELIST = [
+    "TXN_SPOOLS_FOR_ITEM",
+    "TXN_ITEM_FOR_SPOOLS"
+]
+
 headers_file = {}
 with open("headers.json", 'r', encoding="UTF-8") as file:
     headers_file = load(file)
@@ -27,7 +32,7 @@ del data_file_response
 
 
 for transaction in transactions:
-    if transaction["Type"] != "TXN_ITEM_FOR_SPOOLS" or transaction["Time"] < secret["rollbackFrom"]:
+    if not transaction["Type"] in TYPE_WHITELIST or transaction["Time"] < secret["rollbackFrom"]:
         continue
     
     # Если всё прошло гладко
